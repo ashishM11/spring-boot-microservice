@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: account-module
+  profiles:
+    active:
+      - ${SPRING_PROFILE}
+  config:
+    import: "optional:configserver:http://localhost:8080"

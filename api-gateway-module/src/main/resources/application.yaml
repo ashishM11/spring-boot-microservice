@@ -1,0 +1,53 @@
+spring:
+  application:
+    name: api-gateway-module
+  config:
+    import: "optional:configserver:localhost:8080"
+  cloud:
+    gateway:
+      routes:
+        - id: customer-module
+          uri: lb://CUSTOMER-MODULE
+          predicates:
+            - Path=/api/branch/**
+        - id: customer-module
+          uri: lb://CUSTOMER-MODULE
+          predicates:
+            - Path=/api/customer/**
+        - id: account-module
+          uri: lb://ACCOUNT-MODULE
+          predicates:
+            - Path=/api/account/**
+        - id: loan-module
+          uri: lb://LOAN-MODULE
+          predicates:
+            - Path=/api/loan/**
+        - id: loan-module
+          uri: lb://LOAN-MODULE
+          predicates:
+            - Path=/api/loanType/**
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+
+server:
+  port: 9000
+
+eureka:
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
