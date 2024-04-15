@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: service-registry-module
+  cloud:
+    loadbalancer:
+      enabled: true
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+
+server:
+  port: 8761
