@@ -2,6 +2,8 @@ server:
   port: 9001
 
 spring:
+  application:
+    name: "customer-module-${SPRING_PROFILE}"
   h2:
     console:
       enabled: true
@@ -20,10 +22,15 @@ spring:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 
 management:
+  security:
+    enabled: false
+  health:
+    circuitbreakers:
+      enabled: true
   endpoints:
     web:
       exposure:
-        include: "*"
+        include: [refresh,info,beans,health]
   endpoint:
     health:
       show-details: always

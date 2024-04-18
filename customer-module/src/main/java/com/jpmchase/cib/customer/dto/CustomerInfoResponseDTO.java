@@ -15,5 +15,5 @@ public class CustomerInfoResponseDTO {
     private CustomerResponseDTO customer;
     private List<AccountResponseDTO> accounts;
     private List<LoanResponseDTO> loans;
-
+    private String errorResponse;
 }

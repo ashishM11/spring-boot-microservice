@@ -3,7 +3,6 @@ package com.jpmchase.cib.customer.controller;
 import com.jpmchase.cib.customer.dto.CustomerInfoResponseDTO;
 import com.jpmchase.cib.customer.dto.CustomerRequestDTO;
 import com.jpmchase.cib.customer.dto.CustomerResponseDTO;
-import com.jpmchase.cib.customer.model.Branch;
 import com.jpmchase.cib.customer.service.CustomerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,9 +36,13 @@ public class CustomerController {
     }
 
     @GetMapping("/allInfo/{custId}")
+//    @CircuitBreaker(name = "accountBreaker",fallbackMethod = "accountBreakerFallback")
     public ResponseEntity<CustomerInfoResponseDTO> fetchCustomerAllInfo(@PathVariable(value = "custId") Long custId){
         return ResponseEntity.ok(customerService.getCustomerAllInfo(custId));
     }
 
+//    public ResponseEntity<String> accountBreakerFallback(Long custId, Exception e){
+//        return new ResponseEntity<String>("Service is down at the Moment.", HttpStatus.FORBIDDEN);
+//    }
 
 }

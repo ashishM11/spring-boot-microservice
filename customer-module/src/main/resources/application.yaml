@@ -5,4 +5,39 @@ spring:
     active:
       - ${SPRING_PROFILE}
   config:
-    import: "optional:configserver:http://localhost:8080"
+    import: "configserver:http://localhost:8080"
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        # Indicates whether to register a health indicator for this circuit breaker instance.
+        # This can be useful for monitoring the state of the circuit breaker.
+        register-health-indicator: true
+        # The number of calls that are considered for calculating metrics such as failure rate, slow call rate, etc.
+        sliding-window-size: 10
+        # The minimum number of calls that should be made before the circuit breaker can transition from closed to open state.
+        minimum-number-of-calls: 5
+        # The number of calls permitted when the circuit breaker is in the half-open state before deciding whether to close or open again.
+        permitted-number-of-calls-in-half-open-state: 3
+        # The duration for which the circuit breaker remains open before transitioning to half-open state and allowing calls to test if the backend is still reachable.
+        wait-duration-in-open-state: 10s
+        # The threshold percentage of failures above which the circuit breaker should open.
+        failure-rate-threshold: 50
+        # Indicates whether automatic transition from open to half-open state is enabled.
+        automatic-transition-from-open-to-half-open-enabled: true
+        # This property in configuration defines the type of sliding window used for tracking metrics such as failure rate, slow call rate, etc.
+        sliding-window-type: count_based
+    instances:
+      # We are creating circuitBreaker instance for account module as accountBreaker.
+      accountCircuitBreaker:
+        base-config: default
+      # We are creating circuitBreaker instance for loan module as loanBreaker.
+      loanCircuitBreaker:
+        base-config: default
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh
